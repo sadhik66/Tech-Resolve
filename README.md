@@ -85,3 +85,35 @@ Open http://localhost:5000/api/health. A successful response looks like:
 
 ## Before publishing online
 This project is configured for local development. A public production deployment still needs HTTPS, production environment variables, rate limiting, secure hosting, database backups, and a production frontend/API URL configuration. The command simulator is educational and does not run commands on or change the visitor's computer.
+
+---
+
+## Live Project
+
+- **Frontend:** https://tech-resolve-frontend.onrender.com/
+- **Backend API:** https://tech-resolve.onrender.com/api/lessons
+- **GitHub Repository:** https://github.com/sadhik66/Tech-Resolve
+
+## Technology Stack
+
+| Component | Technology |
+|---|---|
+| Frontend | React.js, JavaScript, CSS |
+| Backend | Node.js, Express.js |
+| Database | MongoDB Atlas |
+| Deployment | Render |
+| Version Control | Git, GitHub |
+
+## Project Goals
+
+1. Help beginners understand networking fundamentals.
+2. Provide interactive networking learning experiences.
+3. Teach troubleshooting through practical scenarios.
+4. Track learning progress.
+5. Build technical knowledge through structured lessons and quizzes.
+
+## Developer
+
+Developed by **Sadhik Shaik**.
+
+A full-stack Information Technology learning project.
