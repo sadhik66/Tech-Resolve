@@ -1,7 +1,9 @@
 # Tech Resolve — Complete Networking & IT Learning Platform
 
 A full-stack study website with a React interface and a Node.js/Express API. It includes networking lessons, a network lab, a command-line learning simulator, troubleshooting practice, quizzes, account registration/login, and saved learning progress.
+## Project Preview
 
+![Tech Resolve Homepage](frontend/tech-resolve-home.png)
 ## Requirements
 - Windows 10/11
 - Node.js LTS (includes npm)
