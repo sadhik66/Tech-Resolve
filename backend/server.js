@@ -14,12 +14,20 @@ const adminLessonRoutes = require("./routes/adminLessonRoutes");
 
 const app = express();
 
-// Middleware
-app.use(cors({
-  origin: process.env.CLIENT_URL || "http://localhost:5173"
-}));
+// Allowed frontend origins
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://tech-resolve-frontend.onrender.com"
+];
 
-app.use(express.json({ limit: "20kb" }));
+const corsOptions = {
+  origin: allowedOrigins,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  optionsSuccessStatus: 204
+};
+
+app.use(cors(corsOptions));
 
 // Health check
 app.get("/api/health", (req, res) => {
@@ -45,25 +53,28 @@ app.use((req, res) => {
 
 // Error handler
 app.use((err, req, res, next) => {
-  console.error(err);
+  console.error("Server error:", err.message);
 
-  res.status(500).json({
+  if (res.headersSent) {
+    return next(err);
+  }
+
+  const status = err.message === "Not allowed by CORS" ? 403 : 500;
+
+  return res.status(status).json({
     success: false,
-    message: "Unexpected server error"
+    message: status === 403
+      ? "Origin not allowed."
+      : "Unexpected server error"
   });
 });
 
+// Start server
 const PORT = process.env.PORT || 5000;
 
-// Start server
 async function start() {
-  if (!process.env.MONGO_URI) {
-    console.error("Missing MONGO_URI. Create backend/.env using .env.example.");
-    process.exit(1);
-  }
-
-  if (!process.env.JWT_SECRET) {
-    console.error("Missing JWT_SECRET in backend/.env.");
+  if (!process.env.MONGO_URI || !process.env.JWT_SECRET) {
+    console.error("Missing required environment variables.");
     process.exit(1);
   }
 
@@ -72,10 +83,9 @@ async function start() {
 
     console.log("MongoDB connected.");
 
-    app.listen(PORT, () => {
-      console.log(`Tech Resolve API running at http://localhost:${PORT}`);
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`Tech Resolve API running on port ${PORT}`);
     });
-
   } catch (error) {
     console.error("MongoDB connection failed:", error.message);
     process.exit(1);
